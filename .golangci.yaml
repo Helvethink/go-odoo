@@ -1,0 +1,78 @@
+---
+linters-settings:
+  exhaustive:
+    default-signifies-exhaustive: true
+  gci:
+    sections:
+      - standard
+      - default
+  gomodguard:
+    blocked:
+      modules:
+        - github.com/tj/assert:
+            recommendations:
+              - github.com/stretchr/testify/assert
+            reason: |
+              One assertion library is enough and we use testify/assert
+              everywhere.
+        - github.com/magiconair/properties:
+            recommendations:
+              - github.com/stretchr/testify/assert
+            reason: >
+              We do not currently need to parse properties files. At the same
+              time this module has an assert package which tends to get
+              imported by accident. It is therefore blocked.
+  forbidigo:
+    forbid:
+      - ^print.*$
+      - ^fmt\.Print.*$
+  misspell:
+    locale: "US"
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - errcheck
+    - errname
+    - exhaustive
+    - exportloopref
+    - gci
+    - gocritic
+    #- godot
+    - goimports
+    - gomodguard
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - prealloc
+    - revive
+    - staticcheck
+    - typecheck
+    - unparam
+    - unused
+    - whitespace
+    - forbidigo
+
+issues:
+  # Exclude some linters from running on tests files.
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gosec
+        - errcheck
+    - path: _test\.go
+      linters:
+        - revive
+      # From "env.Mux.HandleFunc"
+      text: "unused-parameter: parameter '(w|r)' seems to be unused, consider removing or renaming it as _"
+
+    - path: config.env
+      # False-positive in error codes
+      text: "G101: Potential hardcoded credentials" # gosec
+
+  # Exclude swagger folder
+  exclude-dirs:
+    - docs

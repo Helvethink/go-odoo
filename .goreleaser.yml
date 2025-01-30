@@ -1,0 +1,45 @@
+version: 2
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  # Generator build
+  - main: generator/main.go
+    binary: generator
+    id: generator
+
+    env:
+      - CGO_ENABLED=0
+
+    goos:
+      - "windows"
+      - "linux"
+      - "darwin"
+    goarch:
+      - "amd64"
+      - "386"
+      - "arm"
+      - "arm64"
+    ignore:
+      - goos: "darwin"
+        goarch: "386"
+      - goos: "windows"
+        goarch: "arm"
+      - goos: "windows"
+        goarch: "arm64"
+
+archives:
+  - formats: [ zip ]
+    id: generator
+    builds: [ generator ]
+    name_template: >-
+      {{- .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end -}}
+
+checksum:
+  algorithm: sha256
