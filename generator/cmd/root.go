@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
+	"log"
 	"strings"
 	"text/template"
 
@@ -85,6 +84,5 @@ func initTemplate() {
 }
 
 func handleError(err error) {
-	fmt.Println(err)
-	os.Exit(1)
+	log.Fatal(err)
 }

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"errors"
-	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -58,7 +58,7 @@ func (g *Generator) getModels(models []string) ([]*model, error) {
 			return nil, err
 		}
 		if len(mfs) == 0 {
-			fmt.Printf("error: cannot find fields for model %s, cannot generate it.\n", model)
+			log.Printf("error: cannot find fields for model %s, cannot generate it.\n", model)
 			continue
 		}
 		idExists := false
@@ -68,8 +68,8 @@ func (g *Generator) getModels(models []string) ([]*model, error) {
 				break
 			}
 		}
-		if idExists == false {
-			fmt.Printf("error: cannot find ID field for model %s, cannot generate it.\n", model)
+		if !idExists {
+			log.Printf("error: cannot find ID field for model %s, cannot generate it.\n", model)
 			continue
 		}
 		mm = append(mm, newModel(model, mfs))
@@ -123,7 +123,7 @@ func (g *Generator) generateModels(models []*model) error {
 				return err
 			}
 		}
-		fmt.Printf("%s has been generated\n", filePath)
+		log.Printf("%s has been generated\n", filePath)
 	}
 	return nil
 }
