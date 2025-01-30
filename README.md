@@ -1,4 +1,4 @@
-# godoo
+# go-odoo
 
 An Odoo API client enabling Go programs to interact with Odoo in a simple and uniform way.
 
