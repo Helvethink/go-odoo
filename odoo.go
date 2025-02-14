@@ -88,11 +88,9 @@ func (c *Client) Version() (Version, error) {
 
 type combinedCriterionOperator string
 
-const (
-	and combinedCriterionOperator = "&"
-	or                            = "|"
-	not                           = "!"
-)
+const and combinedCriterionOperator = "&"
+const or combinedCriterionOperator = "|"
+const not combinedCriterionOperator = "!"
 
 type Criterion []interface{}
 
@@ -138,18 +136,18 @@ func (c *Criteria) AddCriterion(cri *Criterion) *Criteria {
 }
 
 func (c *Criteria) And(c1, c2 *Criterion) *Criteria {
-	return c.combinedCriterions(and, c1, c2)
+	return c.CombinedCriterions(and, c1, c2)
 }
 
 func (c *Criteria) Or(c1, c2 *Criterion) *Criteria {
-	return c.combinedCriterions(or, c1, c2)
+	return c.CombinedCriterions(or, c1, c2)
 }
 
 func (c *Criteria) Not(cri *Criterion) *Criteria {
-	return c.combinedCriterions(not, cri)
+	return c.CombinedCriterions(not, cri)
 }
 
-func (c *Criteria) combinedCriterions(op combinedCriterionOperator, cc ...*Criterion) *Criteria {
+func (c *Criteria) CombinedCriterions(op combinedCriterionOperator, cc ...*Criterion) *Criteria {
 	*c = append(*c, op)
 	for _, cri := range cc {
 		*c = append(*c, cri.ToInterface())
