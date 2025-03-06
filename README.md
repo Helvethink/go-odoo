@@ -6,7 +6,7 @@ An Odoo API client enabling Go programs to interact with Odoo in a simple and un
 [![GoDoc](https://godoc.org/github.com/helvethink/go-odoo?status.svg)](https://pkg.go.dev/github.com/helvethink/go-odoo?tab=doc)
 [![Go Report Card](https://goreportcard.com/badge/github.com/helvethink/go-odoo)](https://goreportcard.com/report/github.com/helvethink/go-odoo)
 [![GitHub issues](https://img.shields.io/github/issues/helvethink/go-odoo.svg)](https://github.com/helvethink/go-odoo/issues)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/helvethink/go-odoo/badge)](https://scorecard.dev/viewer/?uri=github.com/helvethink/go-odoo)
+[OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/Helvethink/go-odoo?label=openssf%20scorecard&style=flat)
 
 ## Usage
 
