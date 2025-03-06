@@ -7,10 +7,12 @@ on:
       - "*"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   goreleaser:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Harden the runner (Audit all outbound calls)
