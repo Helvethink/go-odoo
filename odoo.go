@@ -68,7 +68,7 @@ func (c *Client) Close() {
 		}
 	}()
 	if c.common != nil {
-		c.common.Close()
+		c.common.Close() //nolint:errcheck
 	}
 	if c.object != nil {
 		c.object.Close() //nolint:errcheck
@@ -181,6 +181,8 @@ func (o *Options) Limit(limit int) *Options {
 // https://www.odoo.com/documentation/13.0/webservices/odoo.html#search-and-read
 func (o *Options) FetchFields(fields ...string) *Options {
 	ff := []string{}
+
+	//nolint:staticcheck
 	for _, f := range fields {
 		ff = append(ff, f)
 	}
@@ -192,6 +194,8 @@ func (o *Options) FetchFields(fields ...string) *Options {
 // https://www.odoo.com/documentation/13.0/reference/orm.html#fields-views
 func (o *Options) AllFields(fields ...string) *Options {
 	ff := []string{}
+
+	//nolint:staticcheck
 	for _, f := range fields {
 		ff = append(ff, f)
 	}
@@ -203,6 +207,8 @@ func (o *Options) AllFields(fields ...string) *Options {
 // https://www.odoo.com/documentation/13.0/reference/orm.html#fields-views
 func (o *Options) Attributes(attributes ...string) *Options {
 	aa := []string{}
+
+	//nolint:staticcheck
 	for _, a := range attributes {
 		aa = append(aa, a)
 	}
@@ -436,9 +442,7 @@ func (c *Client) isAuthenticate() bool {
 
 func newTuple(values ...interface{}) []interface{} {
 	t := make([]interface{}, len(values))
-	for i, v := range values {
-		t[i] = v
-	}
+	copy(t, values)
 	return t
 }
 
