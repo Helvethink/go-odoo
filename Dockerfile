@@ -1,4 +1,4 @@
-FROM golang:1.24 AS builder
+FROM golang:1.24@sha256:83d7392cb47ac13ce7ffce0dcbede5658087baf4dd79436831221153793791d5 AS builder
 
 ARG PROJECT_NAME=generator
 ARG PROJECT_PATH=generator
@@ -12,7 +12,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s" -o ${PROJECT_PATH}/${PROJECT_NAME} ${PROJECT_PATH}/main.go
 
-FROM alpine:3.22
+FROM alpine:3.22@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
 
 ARG PROJECT_NAME=generator
 ARG PROJECT_PATH=generator
