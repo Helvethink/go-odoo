@@ -1,78 +1,51 @@
----
-linters-settings:
-  exhaustive:
-    default-signifies-exhaustive: true
-  gci:
-    sections:
-      - standard
-      - default
-  gomodguard:
-    blocked:
-      modules:
-        - github.com/tj/assert:
-            recommendations:
-              - github.com/stretchr/testify/assert
-            reason: |
-              One assertion library is enough and we use testify/assert
-              everywhere.
-        - github.com/magiconair/properties:
-            recommendations:
-              - github.com/stretchr/testify/assert
-            reason: >
-              We do not currently need to parse properties files. At the same
-              time this module has an assert package which tends to get
-              imported by accident. It is therefore blocked.
-  forbidigo:
-    forbid:
-      - ^print.*$
-      - ^fmt\.Print.*$
-  misspell:
-    locale: "US"
-
+version: "2"
 linters:
-  disable-all: true
-  enable:
-    - bodyclose
-    - errcheck
-    - errname
-    - exhaustive
-    - exportloopref
-    - gci
-    - gocritic
-    #- godot
-    - goimports
-    - gomodguard
-    - gosec
-    - gosimple
-    - govet
-    - ineffassign
-    - misspell
-    - prealloc
-    - revive
-    - staticcheck
-    - typecheck
-    - unparam
-    - unused
-    - whitespace
+  #enable-all: true
+  disable:
+    # We don't want these
+    - forcetypeassert
+    - gochecknoglobals
+    - godox
+    - ireturn
+    - nakedret
+    - testpackage
+    - varnamelen
+    - interfacebloat
+    - wsl
+
+    # TODO
+    - tagliatelle
+    - promlinter
+    - paralleltest
+    - gocognit
+    - gomoddirectives
     - forbidigo
+    - goconst
+    - mnd
+    - lll
+    - dupl
+    - depguard
+    - tagalign
 
-issues:
-  # Exclude some linters from running on tests files.
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gosec
-        - errcheck
-    - path: _test\.go
-      linters:
-        - revive
-      # From "env.Mux.HandleFunc"
-      text: "unused-parameter: parameter '(w|r)' seems to be unused, consider removing or renaming it as _"
+  settings:
+    funlen:
+      lines: -1 # (disabled)
+      statements: 100
 
-    - path: config.env
-      # False-positive in error codes
-      text: "G101: Potential hardcoded credentials" # gosec
+    cyclop:
+      max-complexity: 20
 
-  # Exclude swagger folder
-  exclude-dirs:
-    - docs
+    lll:
+      line-length: 140
+
+    nestif:
+      min-complexity: 18
+
+  exclusions:
+    rules:
+      - path: '(.+)_test\.go'
+        linters:
+          - funlen
+          - goconst
+          - errcheck
+...

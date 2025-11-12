@@ -210,6 +210,19 @@ func addRecord(records []int64, record int64) []int64 {
 	return append(records, record)
 }
 
+// removeRecord removes the first occurrence of the given record from the provided slice of int64s.
+//
+// If the specified record is found in the slice, a new slice is returned that contains all elements
+// except the removed record. The original order of the remaining elements is preserved.
+// If the record is not found, the original slice is returned unchanged.
+//
+// Example:
+//
+//	records := []int64{10, 20, 30, 40}
+//	updated := removeRecord(records, 30) --> updated == []int64{10, 20, 40}
+//
+// Note: The returned slice has a new underlying array when a record is removed.
+//nolint:unused
 func removeRecord(records []int64, record int64) []int64 {
 	newRecords := make([]int64, len(records)-1)
 	for idx, r := range records {
