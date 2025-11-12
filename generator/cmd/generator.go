@@ -110,7 +110,7 @@ func (g *Generator) irModelFieldsToModelFields(imfs *odoo.IrModelFieldss) []*mod
 
 func (g *Generator) generateModels(models []*model) error {
 	for _, m := range models {
-		filePath := g.destFolder + "/" + strings.Replace(m.Name, ".", "_", -1) + ".go"
+		filePath := g.destFolder + "/" + strings.ReplaceAll(m.Name, ".", "_") + ".go"
 		output, err := os.Create(filePath)
 		if err != nil {
 			return err

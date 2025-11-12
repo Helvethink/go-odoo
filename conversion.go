@@ -111,7 +111,7 @@ func convertFromDynamicToStaticValue(staticType reflect.Type, dynamicValue inter
 		staticType = staticType.Elem()
 	}
 	typeName := staticType.Name()
-	if !(dynamicValue == nil || (reflect.ValueOf(dynamicValue).Kind() == reflect.Bool && typeName != "Bool")) {
+	if dynamicValue != nil && (reflect.ValueOf(dynamicValue).Kind() != reflect.Bool || typeName == "Bool") {
 		switch typeName {
 		case "String":
 			if strVal, ok := dynamicValue.(string); ok {
@@ -120,6 +120,7 @@ func convertFromDynamicToStaticValue(staticType reflect.Type, dynamicValue inter
 				// We use "String" for Odoo Binary field type also, which is used to store binary data.
 				// However, in rare cases (compute fields), this field might return "[]interface{}" instead of "[]byte".
 				// @TODO: It's important to handle this scenario as well.
+				fmt.Printf("cannot convert dynamic model to static model %s", typeName)
 			}
 		case "Int":
 			staticValue = NewInt(dynamicValue.(int64))

@@ -1,6 +1,6 @@
 // Package odoo contains client code of library
 //
-// go:generate ./generator/generator -u $ODOO_ADMIN -p $ODOO_PASSWORD -d $ODOO_DATABASE --url $ODOO_URL -o $ODOO_REPO_PATH --models $ODOO_MODELS -t generator/cmd/tmpl/model.tmpl
+//go:generate ./generator/generator -u $ODOO_ADMIN -p $ODOO_PASSWORD -d $ODOO_DATABASE --url $ODOO_URL -o $ODOO_REPO_PATH --models $ODOO_MODELS -t generator/cmd/tmpl/model.tmpl
 package odoo
 
 import (
@@ -68,10 +68,10 @@ func (c *Client) Close() {
 		}
 	}()
 	if c.common != nil {
-		c.common.Close()
+		c.common.Close() //nolint:errcheck
 	}
 	if c.object != nil {
-		c.object.Close()
+		c.object.Close() //nolint:errcheck
 	}
 }
 
@@ -82,7 +82,7 @@ func (c *Client) Version() (Version, error) {
 	if err != nil {
 		return Version{}, err
 	}
-	convertFromDynamicToStatic(reply, &v)
+	convertFromDynamicToStatic(reply, &v) //nolint:errcheck
 	return v, nil
 }
 
@@ -101,6 +101,7 @@ func (c *Criterion) ToInterface() []interface{} {
 	return []interface{}{}
 }
 
+//nolint:unused
 type combinedCriterions struct {
 	combinedCriterionOperator
 	Criterions []*Criterion
@@ -108,7 +109,7 @@ type combinedCriterions struct {
 
 /*
 Criteria is a set of Criterion, each Criterion is a triple (field_name, operator, value).
-It allow you to search models.
+It allows you to search models.
 see documentation: https://www.odoo.com/documentation/13.0/reference/orm.html#reference-orm-domains
 */
 type Criteria []interface{}
@@ -180,6 +181,8 @@ func (o *Options) Limit(limit int) *Options {
 // https://www.odoo.com/documentation/13.0/webservices/odoo.html#search-and-read
 func (o *Options) FetchFields(fields ...string) *Options {
 	ff := []string{}
+
+	//nolint:staticcheck
 	for _, f := range fields {
 		ff = append(ff, f)
 	}
@@ -191,6 +194,8 @@ func (o *Options) FetchFields(fields ...string) *Options {
 // https://www.odoo.com/documentation/13.0/reference/orm.html#fields-views
 func (o *Options) AllFields(fields ...string) *Options {
 	ff := []string{}
+
+	//nolint:staticcheck
 	for _, f := range fields {
 		ff = append(ff, f)
 	}
@@ -202,6 +207,8 @@ func (o *Options) AllFields(fields ...string) *Options {
 // https://www.odoo.com/documentation/13.0/reference/orm.html#fields-views
 func (o *Options) Attributes(attributes ...string) *Options {
 	aa := []string{}
+
+	//nolint:staticcheck
 	for _, a := range attributes {
 		aa = append(aa, a)
 	}
@@ -435,9 +442,7 @@ func (c *Client) isAuthenticate() bool {
 
 func newTuple(values ...interface{}) []interface{} {
 	t := make([]interface{}, len(values))
-	for i, v := range values {
-		t[i] = v
-	}
+	copy(t, values)
 	return t
 }
 
