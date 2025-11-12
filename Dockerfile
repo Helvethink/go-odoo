@@ -1,0 +1,24 @@
+FROM golang:1.24 AS builder
+
+ARG PROJECT_NAME=generator
+ARG PROJECT_PATH=generator
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+
+WORKDIR /app/
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s" -o ${PROJECT_PATH}/${PROJECT_NAME} ${PROJECT_PATH}/main.go
+
+FROM alpine:3.22
+
+ARG PROJECT_NAME=generator
+ARG PROJECT_PATH=generator
+
+WORKDIR /app/
+
+COPY --from=builder /app/${PROJECT_PATH}/${PROJECT_NAME} /app/
+
+ENTRYPOINT ["/app/generator"]
