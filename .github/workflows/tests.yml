@@ -28,7 +28,12 @@ jobs:
       - name: Test
         run: go test -v ./...
 
+      - name: Run tests with coverage
+        run: go test ./... -coverprofile=coverage.out -covermode=atomic
+
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2.3.6
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.out
+          format: golang
