@@ -7,7 +7,7 @@ toolchain go1.23.5
 require (
 	github.com/iancoleman/strcase v0.3.0
 	github.com/kolo/xmlrpc v0.0.0-20201022064351-38db28db192b
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 )
 
 require (
