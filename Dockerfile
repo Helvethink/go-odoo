@@ -1,4 +1,4 @@
-FROM golang:1.25@sha256:f60eaa87c79e604967c84d18fd3b151b3ee3f033bcdade4f3494e38411e60963 AS builder
+FROM golang:1.25@sha256:31c1e53dfc1cc2d269deec9c83f58729fa3c53dc9a576f6426109d1e319e9e9a AS builder
 
 ARG PROJECT_NAME=generator
 ARG PROJECT_PATH=generator
